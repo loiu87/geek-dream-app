@@ -1,11 +1,18 @@
-import React from "react";
-import Router from "./Router";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
+import Routes from "./Routes";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import theme from "../styles/theme";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
-    // <React.Fragment>
-    <Router />
-    // </React.Fragment>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes isLoggedIn={isLoggedIn} />
+      </Router>
+    </ThemeProvider>
   );
 }
 
