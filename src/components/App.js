@@ -1,10 +1,11 @@
 import React from "react";
+import Router from "./Router";
 
 function App() {
   return (
-    <div className="App">
-      <h1>lets get start</h1>
-    </div>
+    // <React.Fragment>
+    <Router />
+    // </React.Fragment>
   );
 }
 
