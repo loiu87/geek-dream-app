@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import RouteControler from "../routes/Analizer";
 import LogIn from "../routes/LogIn";
-import RawFileUploadContainer from "../routes/RawFileUpload";
 
 const LoggedInRoutes = () => {
   return (
     <Switch>
-      <Route path="/" exact component={RawFileUploadContainer} />
+      <Route path="/" exact component={RouteControler} />
     </Switch>
   );
 };

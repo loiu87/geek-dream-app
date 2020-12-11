@@ -1,11 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import * as XLSX from "xlsx";
+import { DataContext } from "./RouteControler";
 
 const convertToJson = (csv) => {
   var lines = csv.split("\n");
-  // console.log(lines);
   var result = [];
 
   var headers = lines[0].split(",");
@@ -24,27 +24,21 @@ const convertToJson = (csv) => {
 };
 
 export default () => {
-  const [objData, setObjData] = useState("");
+  const { setData } = useContext(DataContext);
 
-  const readExcel = (event) => {
+  const readExcel = async (event) => {
     let input = event.target;
     let reader = new FileReader();
-    reader.onload = function () {
+    reader.onload = async () => {
       let data = reader.result;
       let workBook = XLSX.read(data, { type: "binary" });
-      workBook.SheetNames.forEach(function (sheetName) {
-        console.log("SheetName: " + sheetName);
-        let workSheet = workBook.Sheets[sheetName];
-        const data = XLSX.utils.sheet_to_csv(workSheet, { header: 1 });
-        setObjData(convertToJson(data));
-      });
+      const sheetName = workBook.SheetNames[0];
+      let workSheet = workBook.Sheets[sheetName];
+      const result = XLSX.utils.sheet_to_csv(workSheet, { header: 1 });
+      setData(convertToJson(result));
     };
-    reader.readAsBinaryString(input.files[0]);
+    await reader.readAsBinaryString(input.files[0]);
   };
-
-  useEffect(() => {
-    console.log(objData);
-  }, [objData]);
 
   return (
     <Container>
