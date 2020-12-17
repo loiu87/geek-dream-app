@@ -5,16 +5,18 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import calculateRights from "../../computer/calculateRights";
 import calculateTechnology from "../../computer/calculateTechnology";
+import { calculateMarket } from "../../computer/claculateMarket";
 import clmnDaysAverage from "../../computer/clmnDaysAverage";
 import clmnOrSmblAverage from "../../computer/clmnOrSmblAverage";
 import clmnYearAverage from "../../computer/clmnYearAverage";
 import columnAverage from "../../computer/columnAverage";
+import { INDEX } from "../../constants";
 import { DataContext } from "./RouteControler";
 
 function DashBoard() {
   const { data } = useContext(DataContext);
   const [avrgNumOfClaim, setAvrgNumOfClaim] = useState(1);
-  const [avrgNumOfInventer, setAvrgNumOfInventer] = useState(1);
+  const [avrgNumOfInventors, setAvrgNumOfInventors] = useState(1);
   const [avrgNumOfIPC, setAvrgNumOfIPC] = useState(1);
   const [avrgRemainingYears, setAvrgRemainingYears] = useState(1);
   const [avrgNumOfFamilyPatent, setAvrgNumOfFamilyPatent] = useState(1);
@@ -29,7 +31,7 @@ function DashBoard() {
       now,
       nowYear,
       setAvrgNumOfClaim,
-      setAvrgNumOfInventer,
+      setAvrgNumOfInventors,
       setAvrgNumOfIPC,
       setAvrgRemainingYears,
       setAvrgNumOfFamilyPatent,
@@ -41,11 +43,12 @@ function DashBoard() {
       now,
       nowYear,
       avrgNumOfClaim,
-      avrgNumOfInventer,
+      avrgNumOfInventors,
       avrgNumOfIPC,
       avrgRemainingYears,
       avrgNumOfFamilyPatent,
-      avrgNumOfFamilyContry
+      avrgNumOfFamilyContry,
+      avrgPublicationDays
     );
   };
 
@@ -70,20 +73,30 @@ const getData = async (
   now,
   nowYear,
   setAvrgNumOfClaim,
-  setAvrgNumOfInventer,
+  setAvrgNumOfInventors,
   setAvrgNumOfIPC,
   setAvrgRemainingYears,
   setAvrgNumOfFamilyPatent,
   setAvrgNumOfFamilyContry,
   setAvrgPublicationDays
 ) => {
-  setAvrgNumOfClaim(columnAverage({ datas: data, index: 6 }));
-  setAvrgNumOfInventer(columnAverage({ datas: data, index: 7 }));
-  setAvrgNumOfIPC(clmnOrSmblAverage({ datas: data, index: 8 }));
-  setAvrgRemainingYears(clmnYearAverage({ nowYear, datas: data, index: 3 }));
-  setAvrgNumOfFamilyPatent(columnAverage({ datas: data, index: 9 }));
-  setAvrgNumOfFamilyContry(columnAverage({ datas: data, index: 10 }));
-  setAvrgPublicationDays(clmnDaysAverage({ now, datas: data, index: 4 })); // todo
+  setAvrgNumOfClaim(columnAverage({ datas: data, index: INDEX.numOfClaim }));
+  setAvrgNumOfInventors(
+    columnAverage({ datas: data, index: INDEX.numOfInventors })
+  );
+  setAvrgNumOfIPC(clmnOrSmblAverage({ datas: data, index: INDEX.IPC }));
+  setAvrgRemainingYears(
+    clmnYearAverage({ nowYear, datas: data, index: INDEX.filingDate })
+  );
+  setAvrgNumOfFamilyPatent(
+    columnAverage({ datas: data, index: INDEX.numOfFamilyPatent })
+  );
+  setAvrgNumOfFamilyContry(
+    columnAverage({ datas: data, index: INDEX.numOfFamilyContry })
+  );
+  setAvrgPublicationDays(
+    clmnDaysAverage({ now, datas: data, index: INDEX.releaseDate })
+  );
 };
 
 const setCalculatedData = async (
@@ -91,11 +104,12 @@ const setCalculatedData = async (
   now,
   nowYear,
   avrgNumOfClaim,
-  avrgNumOfInventer,
+  avrgNumOfInventors,
   avrgNumOfIPC,
   avrgRemainingYears,
   avrgNumOfFamilyPatent,
-  avrgNumOfFamilyContry
+  avrgNumOfFamilyContry,
+  avrgPublicationDays
 ) => {
   data.map((data) => {
     const values = Object.values(data);
@@ -103,7 +117,7 @@ const setCalculatedData = async (
       data,
       values,
       avrgNumOfClaim,
-      avrgNumOfInventer,
+      avrgNumOfInventors,
       avrgNumOfIPC
     );
     calculateRights(
@@ -111,7 +125,7 @@ const setCalculatedData = async (
       nowYear,
       values,
       avrgNumOfClaim,
-      avrgNumOfInventer,
+      avrgNumOfInventors,
       avrgRemainingYears,
       avrgNumOfFamilyPatent,
       avrgNumOfFamilyContry
@@ -121,39 +135,11 @@ const setCalculatedData = async (
       now,
       values,
       avrgNumOfFamilyPatent,
-      avrgNumOfFamilyContry
+      avrgNumOfFamilyContry,
+      avrgPublicationDays
     );
     console.log(data);
   });
 };
-const calculateMarket = (
-  data,
-  now,
-  values,
-  avrgNumOfFamilyPatent,
-  avrgNumOfFamilyContry
-) => {
-  if (values[0]) {
-    const marketDefence = parseInt(values[9]) / avrgNumOfFamilyPatent;
-    const marketEntry = parseInt(values[10]) / avrgNumOfFamilyContry;
-    data["시장의 확보성"] = marketDefence;
-    data["시장의 진출성"] = marketEntry;
-    data["배점: 시장의 확보성"] =
-      marketDefence >= 1.0
-        ? 4
-        : marketDefence >= 0.8
-        ? 3
-        : marketDefence >= 0.6
-        ? 2
-        : 1;
-    data["배점: 시장의 진출성"] =
-      marketEntry >= 1.5
-        ? 4
-        : marketEntry >= 1.0
-        ? 3
-        : marketEntry >= 0.5
-        ? 2
-        : 1;
-  }
-};
+
 export default DashBoard;

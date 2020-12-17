@@ -1,24 +1,28 @@
+import { INDEX } from "../constants";
+
 /* eslint-disable import/no-anonymous-default-export */
 export default (
   data,
   nowYear,
   values,
   avrgNumOfClaim,
-  avrgNumOfInventer,
+  avrgNumOfInventors,
   avrgRemainingYears,
   avrgNumOfFamilyPatent,
   avrgNumOfFamilyContry
 ) => {
-  if (values[0]) {
+  if (values[1]) {
+    // console.log(values);
     const rightsCompletness =
-      parseInt(values[6]) /
+      parseInt(values[INDEX.numOfClaim]) /
       avrgNumOfClaim /
-      (parseInt(values[7]) / avrgNumOfInventer);
+      (parseInt(values[INDEX.numOfInventors]) / avrgNumOfInventors);
     const rightsLife =
-      (parseInt(values[3]) + 20 - nowYear) / avrgRemainingYears;
+      (parseInt(values[INDEX.filingDate]) + 20 - nowYear) / avrgRemainingYears;
+    // console.log(values[INDEX.filingDate]);
     const rightsScalability =
-      parseInt(values[9]) /
-      parseInt(values[10]) /
+      parseInt(values[INDEX.numOfFamilyPatent]) /
+      parseInt(values[INDEX.numOfFamilyContry]) /
       (avrgNumOfFamilyPatent / avrgNumOfFamilyContry);
     data["권리의 완성도"] = rightsCompletness;
     data["권리의 수명"] = rightsLife;
