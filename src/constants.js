@@ -1,0 +1,22 @@
+export const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+export const INDEX = {
+  nationCode: 0,
+  name: 1,
+  summary: 2,
+  representativeClaim: 3,
+  applicationNumber: 4,
+  filingDate: 5,
+  releaseDate: 6,
+  registrationDate: 7,
+  numOfClaim: 8,
+  numOfInventors: 9,
+  IPC: 10,
+  numOfFamilyPatent: 11,
+  numOfFamilyContry: 12,
+  applicants: 13,
+  numOfApplicants: 14,
+  contryOfApplicants: 15,
+  inventors: 16,
+  legalStatus: 17,
+  wintelipsKey: 18,
+};
