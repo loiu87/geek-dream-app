@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { MILLISECONDS_PER_DAY } from "../constant";
+import { MILLISECONDS_PER_DAY } from "../constants";
 
 export default ({ now, data, index }) => {
   const releaseDate = new Date(
