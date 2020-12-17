@@ -6,11 +6,11 @@ export default ({ datas, index }) => {
   datas.map((data) => {
     const value = Object.values(data)[index];
     if (value) {
-      const numOfOr = value.split("|").length;
-      if (isNaN(numOfOr)) {
+      const numOfData = value.split("|").length;
+      if (isNaN(numOfData)) {
         return 0;
       } else {
-        parsedData = [...parsedData, numOfOr];
+        parsedData = [...parsedData, numOfData];
         return 0;
       }
     }

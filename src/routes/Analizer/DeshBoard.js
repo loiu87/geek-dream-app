@@ -55,9 +55,6 @@ function DashBoard() {
   useEffect(() => {
     handleData();
   }, []);
-  useEffect(() => {
-    console.log(`avrgPublicationDays:${avrgPublicationDays}`);
-  }, [avrgPublicationDays]);
 
   return (
     <Wrapper>
