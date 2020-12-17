@@ -11,6 +11,7 @@ import clmnOrSmblAverage from "../../computer/clmnOrSmblAverage";
 import clmnYearAverage from "../../computer/clmnYearAverage";
 import columnAverage from "../../computer/columnAverage";
 import { INDEX } from "../../constants";
+import exportExcel from "../../util/exportExcel";
 import { DataContext } from "./RouteControler";
 
 function DashBoard() {
@@ -59,6 +60,15 @@ function DashBoard() {
   return (
     <Wrapper>
       <h1>DashBoard</h1>
+
+      <button
+        style={{ margin: 15 }}
+        onClick={() => {
+          exportExcel(data);
+        }}
+      >
+        Down Load Excel
+      </button>
     </Wrapper>
   );
 }
@@ -135,7 +145,6 @@ const setCalculatedData = async (
       avrgNumOfFamilyContry,
       avrgPublicationDays
     );
-    console.log(data);
   });
 };
 
