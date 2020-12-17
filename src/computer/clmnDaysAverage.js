@@ -1,18 +1,12 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable import/no-anonymous-default-export */
 
+import releasePeriod from "./releasePeriod";
+
 export default ({ now, datas, index }) => {
   let parsedData = [];
   datas.map((data) => {
-    const releaseDate = new Date(
-      Object.values(data)[index]
-        ? new Date(Object.values(data)[index])
-        : Object.values(data)[index + 1]
-    );
-    const value = Math.floor(
-      (now.getTime() - releaseDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
-    // console.log(value);
+    const value = releasePeriod({ now, data, index });
     if (isNaN(value)) {
       return 0;
     } else {

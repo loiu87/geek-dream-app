@@ -1,15 +1,18 @@
+import { INDEX } from "../constants";
+
 /* eslint-disable import/no-anonymous-default-export */
 export default (
   data,
   values,
   avrgNumOfClaim,
-  avrgNumOfInventer,
+  avrgNumOfInventors,
   avrgNumOfIPC
 ) => {
   if (values[0]) {
-    const techPerfection = parseInt(values[6]) / avrgNumOfClaim;
-    const techResponsibility = parseInt(values[7]) / avrgNumOfInventer;
-    const techConvergence = values[8].split("|").length / avrgNumOfIPC;
+    const techPerfection = parseInt(values[INDEX.numOfClaim]) / avrgNumOfClaim;
+    const techResponsibility =
+      parseInt(values[INDEX.numOfInventors]) / avrgNumOfInventors;
+    const techConvergence = values[INDEX.IPC].split("|").length / avrgNumOfIPC;
     data["기술완성도"] = techPerfection;
     data["기술신뢰성"] = techResponsibility;
     data["융복합성"] = techConvergence;

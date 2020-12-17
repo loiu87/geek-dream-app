@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import RouteControler from "../routes/Analizer";
-import LogIn from "../routes/LogIn";
+import LogIn from "../routes/Auth/LogIn";
 
 const LoggedInRoutes = () => {
   return (
