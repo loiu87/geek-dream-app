@@ -39,11 +39,11 @@ export const calculateMarket = (
         ? 2
         : 1;
     data["배점: 시장의 집중도"] =
-      marketEntry >= 1.6
+      marketConcentration >= 1.6
         ? 6
-        : marketEntry >= 1.2
+        : marketConcentration >= 1.2
         ? 4.5
-        : marketEntry >= 0.8
+        : marketConcentration >= 0.8
         ? 3
         : 1.5;
     data["배점: 시장의 선점도"] =
