@@ -1,21 +1,19 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
-import calculateRights from "../../computer/calculateRights";
-import calculateTechnology from "../../computer/calculateTechnology";
-import { calculateMarket } from "../../computer/claculateMarket";
-import clmnDaysAverage from "../../computer/clmnDaysAverage";
-import clmnOrSmblAverage from "../../computer/clmnOrSmblAverage";
-import clmnYearAverage from "../../computer/clmnYearAverage";
-import columnAverage from "../../computer/columnAverage";
-import { INDEX } from "../../constants";
+import Button from "../../components/Button";
 import exportExcel from "../../util/exportExcel";
+import getData from "../../util/getData";
 import { DataContext } from "./RouteControler";
-
+import setCalculatedData from "../../util/setCalculatedData";
+import DescriptionBox from "./DescriptionBox";
+import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 function DashBoard() {
   const { data } = useContext(DataContext);
+  const [selectedRows, setSelectedRows] = useState(0);
   const [avrgNumOfClaim, setAvrgNumOfClaim] = useState(1);
   const [avrgNumOfInventors, setAvrgNumOfInventors] = useState(1);
   const [avrgNumOfIPC, setAvrgNumOfIPC] = useState(1);
@@ -25,7 +23,217 @@ function DashBoard() {
   const [avrgPublicationDays, setAvrgPublicationDays] = useState(1);
   const now = new Date();
   const nowYear = now.getFullYear();
+  const columns = useMemo(
+    () => [
+      {
+        Header: "No",
+        accessor: "No",
+        // minWidth: 300,
+      },
+      {
+        Header: "국가코드",
+        accessor: "국가코드",
+        // minWidth: 300,
+      },
+      {
+        Header: "발명의 명칭",
+        accessor: "발명의 명칭",
+        // minWidth: 300,
+      },
 
+      {
+        Header: "출원번호",
+        accessor: "출원번호",
+        // minWidth: 300,
+      },
+      {
+        Header: "출원일",
+        accessor: "출원일",
+        // minWidth: 300,
+      },
+      {
+        Header: "공개일",
+        accessor: "공개일",
+        // minWidth: 300,
+      },
+      {
+        Header: "등록일",
+        accessor: "등록일",
+        // minWidth: 300,
+      },
+      {
+        Header: "청구항 수",
+        accessor: "청구항 수",
+        // minWidth: 300,
+      },
+      {
+        Header: "발명자 수",
+        accessor: "발명자 수",
+        // minWidth: 300,
+      },
+      {
+        Header: "IPC (All)",
+        accessor: "IPC (All)",
+        // minWidth: 300,
+      },
+      {
+        Header: "패밀리 문헌 수 (출원기준)",
+        accessor: "패밀리 문헌 수 (출원기준)",
+        // minWidth: 300,
+      },
+      {
+        Header: "패밀리 국가 수",
+        accessor: "패밀리 국가 수",
+        // minWidth: 300,
+      },
+      {
+        Header: "출원인",
+        accessor: "출원인",
+        // minWidth: 300,
+      },
+      {
+        Header: "출원인 수",
+        accessor: "출원인 수",
+        // minWidth: 300,
+      },
+      {
+        Header: "출원인 국적",
+        accessor: "출원인 국적",
+        // minWidth: 300,
+      },
+      {
+        Header: "발명자/고안자",
+        accessor: "발명자/고안자",
+        // minWidth: 300,
+      },
+      {
+        Header: "Wintelips Key",
+        accessor: "Wintelips Key",
+        // minWidth: 300,
+      },
+      {
+        Header: "IPC(Class)",
+        accessor: "IPC(Class)",
+        // minWidth: 300,
+      },
+      {
+        Header: "기술성장 CAGR",
+        accessor: "기술성장 CAGR",
+        // minWidth: 300,
+      },
+      {
+        Header: "산업부문IPC",
+        accessor: "산업부문IPC",
+        // minWidth: 300,
+      },
+      {
+        Header: "시장성장 CAGR",
+        accessor: "시장성장 CAGR",
+        // minWidth: 300,
+      },
+      {
+        Header: "기술완성도",
+        accessor: "기술완성도",
+        // minWidth: 300,
+      },
+      {
+        Header: "기술신뢰성",
+        accessor: "기술신뢰성",
+        // minWidth: 300,
+      },
+      {
+        Header: "융복합성",
+        accessor: "융복합성",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 기술완성도",
+        accessor: "배점: 기술완성도",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 기술신뢰성",
+        accessor: "배점: 기술신뢰성",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 융복합성",
+        accessor: "배점: 융복합성",
+        // minWidth: 300,
+      },
+      {
+        Header: "권리의 완성도",
+        accessor: "권리의 완성도",
+        // minWidth: 300,
+      },
+      {
+        Header: "권리의 수명",
+        accessor: "권리의 수명",
+        // minWidth: 300,
+      },
+      {
+        Header: "권리의 확장성",
+        accessor: "권리의 확장성",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 권리의 완성도",
+        accessor: "배점: 권리의 완성도",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 권리의 수명",
+        accessor: "배점: 권리의 수명",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 권리의 확장성",
+        accessor: "배점: 권리의 확장성",
+        // minWidth: 300,
+      },
+      {
+        Header: "시장의 확보성",
+        accessor: "시장의 확보성",
+        // minWidth: 300,
+      },
+      {
+        Header: "시장의 진출성",
+        accessor: "시장의 진출성",
+        // minWidth: 300,
+      },
+      {
+        Header: "시장의 집중도",
+        accessor: "시장의 집중도",
+        // minWidth: 300,
+      },
+      {
+        Header: "시장의 선점도",
+        accessor: "시장의 선점도",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 시장의 확보성",
+        accessor: "배점: 시장의 확보성",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 시장의 진출성",
+        accessor: "배점: 시장의 진출성",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 시장의 집중도",
+        accessor: "배점: 시장의 집중도",
+        // minWidth: 300,
+      },
+      {
+        Header: "배점: 시장의 선점도",
+        accessor: "배점: 시장의 선점도",
+        // minWidth: 300,
+      },
+    ],
+    []
+  );
   const handleData = async () => {
     await getData(
       data,
@@ -60,92 +268,203 @@ function DashBoard() {
   return (
     <Wrapper>
       <h1>DashBoard</h1>
-
-      <button
-        style={{ margin: 15 }}
+      <DescriptionBox data={data[selectedRows]} />
+      <SheetContainer>
+        <Styles>
+          <TableContainer
+            columns={columns}
+            data={data}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
+        </Styles>
+      </SheetContainer>
+      <Button
         onClick={() => {
           exportExcel(data);
         }}
       >
-        Down Load Excel
-      </button>
+        excel Download
+      </Button>
     </Wrapper>
   );
 }
 
+const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    selectedFlatRows,
+    page,
+    rows,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize, selectedRowIds },
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0, selectedRowIds: { [selectedRows]: true } },
+    },
+    useSortBy,
+    usePagination,
+    useRowSelect
+  );
+
+  useEffect(() => {
+    console.log(selectedFlatRows);
+    const index =
+      selectedFlatRows &&
+      selectedFlatRows[0] &&
+      Number.isInteger(selectedFlatRows[0].index)
+        ? selectedFlatRows[0].index
+        : 0;
+    setSelectedRows(index);
+  }, [selectedFlatRows]);
+
+  return (
+    <>
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render("Header")}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? " ⬇️"
+                        : " ⬆️"
+                      : " "}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {page.map((row, i) => {
+            prepareRow(row);
+            const onChange = row.getToggleRowSelectedProps().onChange;
+            const select = (e) => {
+              rows.map((row, i) => {
+                return row.isSelected && row.toggleRowSelected(false);
+              });
+              onChange(e);
+            };
+            return (
+              <tr
+                {...row.getRowProps()}
+                onClick={select}
+                style={{
+                  backgroundColor: row.isSelected ? "green" : "#fff",
+                }}
+              >
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()} style={{}}>
+                      {cell.render("Cell")}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {"<<"}
+        </button>{" "}
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {"<"}
+        </button>{" "}
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {">"}
+        </button>{" "}
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {">>"}
+        </button>{" "}
+        <span>
+          Page{" "}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{" "}
+        </span>
+        <span>
+          | Go to page:{" "}
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
+            }}
+            style={{ width: "100px" }}
+          />
+        </span>{" "}
+        <select
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
+    </>
+  );
+};
+
 const Wrapper = styled.div``;
+const SheetContainer = styled.div`
+  height: 30rem;
+  width: 100%;
+  overflow: scroll;
+`;
 
-const getData = async (
-  data,
-  now,
-  nowYear,
-  setAvrgNumOfClaim,
-  setAvrgNumOfInventors,
-  setAvrgNumOfIPC,
-  setAvrgRemainingYears,
-  setAvrgNumOfFamilyPatent,
-  setAvrgNumOfFamilyContry,
-  setAvrgPublicationDays
-) => {
-  setAvrgNumOfClaim(columnAverage({ datas: data, index: INDEX.numOfClaim }));
-  setAvrgNumOfInventors(
-    columnAverage({ datas: data, index: INDEX.numOfInventors })
-  );
-  setAvrgNumOfIPC(clmnOrSmblAverage({ datas: data, index: INDEX.IPC }));
-  setAvrgRemainingYears(
-    clmnYearAverage({ nowYear, datas: data, index: INDEX.filingDate })
-  );
-  setAvrgNumOfFamilyPatent(
-    columnAverage({ datas: data, index: INDEX.numOfFamilyPatent })
-  );
-  setAvrgNumOfFamilyContry(
-    columnAverage({ datas: data, index: INDEX.numOfFamilyContry })
-  );
-  setAvrgPublicationDays(
-    clmnDaysAverage({ now, datas: data, index: INDEX.releaseDate })
-  );
-};
+const Styles = styled.div`
+  table {
+    border-spacing: 0;
+    border: 1px solid black;
 
-const setCalculatedData = async (
-  data,
-  now,
-  nowYear,
-  avrgNumOfClaim,
-  avrgNumOfInventors,
-  avrgNumOfIPC,
-  avrgRemainingYears,
-  avrgNumOfFamilyPatent,
-  avrgNumOfFamilyContry,
-  avrgPublicationDays
-) => {
-  data.map((data) => {
-    const values = Object.values(data);
-    calculateTechnology(
-      data,
-      values,
-      avrgNumOfClaim,
-      avrgNumOfInventors,
-      avrgNumOfIPC
-    );
-    calculateRights(
-      data,
-      nowYear,
-      values,
-      avrgNumOfClaim,
-      avrgNumOfInventors,
-      avrgRemainingYears,
-      avrgNumOfFamilyPatent,
-      avrgNumOfFamilyContry
-    );
-    calculateMarket(
-      data,
-      now,
-      values,
-      avrgNumOfFamilyPatent,
-      avrgNumOfFamilyContry,
-      avrgPublicationDays
-    );
-  });
-};
+    tr {
+      :last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    th,
+    td {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 4rem;
+      max-width: 8rem;
+      padding: 0.5rem;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+      :last-child {
+        border-right: 0;
+      }
+    }
+  }
+`;
 
 export default DashBoard;
