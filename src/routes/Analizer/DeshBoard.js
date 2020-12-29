@@ -28,208 +28,167 @@ function DashBoard() {
       {
         Header: "No",
         accessor: "No",
-        // minWidth: 300,
       },
       {
         Header: "국가코드",
         accessor: "국가코드",
-        // minWidth: 300,
       },
       {
         Header: "발명의 명칭",
         accessor: "발명의 명칭",
-        // minWidth: 300,
       },
 
       {
         Header: "출원번호",
         accessor: "출원번호",
-        // minWidth: 300,
       },
       {
         Header: "출원일",
         accessor: "출원일",
-        // minWidth: 300,
       },
       {
         Header: "공개일",
         accessor: "공개일",
-        // minWidth: 300,
       },
       {
         Header: "등록일",
         accessor: "등록일",
-        // minWidth: 300,
       },
       {
         Header: "청구항 수",
         accessor: "청구항 수",
-        // minWidth: 300,
       },
       {
         Header: "발명자 수",
         accessor: "발명자 수",
-        // minWidth: 300,
       },
       {
         Header: "IPC (All)",
         accessor: "IPC (All)",
-        // minWidth: 300,
       },
       {
         Header: "패밀리 문헌 수 (출원기준)",
         accessor: "패밀리 문헌 수 (출원기준)",
-        // minWidth: 300,
       },
       {
         Header: "패밀리 국가 수",
         accessor: "패밀리 국가 수",
-        // minWidth: 300,
       },
       {
         Header: "출원인",
         accessor: "출원인",
-        // minWidth: 300,
       },
       {
         Header: "출원인 수",
         accessor: "출원인 수",
-        // minWidth: 300,
       },
       {
         Header: "출원인 국적",
         accessor: "출원인 국적",
-        // minWidth: 300,
       },
       {
         Header: "발명자/고안자",
         accessor: "발명자/고안자",
-        // minWidth: 300,
       },
       {
         Header: "Wintelips Key",
         accessor: "Wintelips Key",
-        // minWidth: 300,
       },
       {
         Header: "IPC(Class)",
         accessor: "IPC(Class)",
-        // minWidth: 300,
       },
       {
         Header: "기술성장 CAGR",
         accessor: "기술성장 CAGR",
-        // minWidth: 300,
       },
       {
         Header: "산업부문IPC",
         accessor: "산업부문IPC",
-        // minWidth: 300,
       },
       {
         Header: "시장성장 CAGR",
         accessor: "시장성장 CAGR",
-        // minWidth: 300,
       },
       {
         Header: "기술완성도",
         accessor: "기술완성도",
-        // minWidth: 300,
       },
       {
         Header: "기술신뢰성",
         accessor: "기술신뢰성",
-        // minWidth: 300,
       },
       {
         Header: "융복합성",
         accessor: "융복합성",
-        // minWidth: 300,
       },
       {
         Header: "배점: 기술완성도",
         accessor: "배점: 기술완성도",
-        // minWidth: 300,
       },
       {
         Header: "배점: 기술신뢰성",
         accessor: "배점: 기술신뢰성",
-        // minWidth: 300,
       },
       {
         Header: "배점: 융복합성",
         accessor: "배점: 융복합성",
-        // minWidth: 300,
       },
       {
         Header: "권리의 완성도",
         accessor: "권리의 완성도",
-        // minWidth: 300,
       },
       {
         Header: "권리의 수명",
         accessor: "권리의 수명",
-        // minWidth: 300,
       },
       {
         Header: "권리의 확장성",
         accessor: "권리의 확장성",
-        // minWidth: 300,
       },
       {
         Header: "배점: 권리의 완성도",
         accessor: "배점: 권리의 완성도",
-        // minWidth: 300,
       },
       {
         Header: "배점: 권리의 수명",
         accessor: "배점: 권리의 수명",
-        // minWidth: 300,
       },
       {
         Header: "배점: 권리의 확장성",
         accessor: "배점: 권리의 확장성",
-        // minWidth: 300,
       },
       {
         Header: "시장의 확보성",
         accessor: "시장의 확보성",
-        // minWidth: 300,
       },
       {
         Header: "시장의 진출성",
         accessor: "시장의 진출성",
-        // minWidth: 300,
       },
       {
         Header: "시장의 집중도",
         accessor: "시장의 집중도",
-        // minWidth: 300,
       },
       {
         Header: "시장의 선점도",
         accessor: "시장의 선점도",
-        // minWidth: 300,
       },
       {
         Header: "배점: 시장의 확보성",
         accessor: "배점: 시장의 확보성",
-        // minWidth: 300,
       },
       {
         Header: "배점: 시장의 진출성",
         accessor: "배점: 시장의 진출성",
-        // minWidth: 300,
       },
       {
         Header: "배점: 시장의 집중도",
         accessor: "배점: 시장의 집중도",
-        // minWidth: 300,
       },
       {
         Header: "배점: 시장의 선점도",
         accessor: "배점: 시장의 선점도",
-        // minWidth: 300,
       },
     ],
     []
@@ -353,6 +312,7 @@ const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
+            console.log(page);
             prepareRow(row);
             const onChange = row.getToggleRowSelectedProps().onChange;
             const select = (e) => {
