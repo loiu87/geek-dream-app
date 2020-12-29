@@ -12,6 +12,7 @@ import setCalculatedData from "../../util/setCalculatedData";
 import DescriptionBox from "./DescriptionBox";
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 function DashBoard() {
+  const [loading, setLoading] = useState(true);
   const { data } = useContext(DataContext);
   const [selectedRows, setSelectedRows] = useState(0);
   const [avrgNumOfClaim, setAvrgNumOfClaim] = useState(1);
@@ -218,6 +219,7 @@ function DashBoard() {
       avrgNumOfFamilyContry,
       avrgPublicationDays
     );
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -227,24 +229,30 @@ function DashBoard() {
   return (
     <Wrapper>
       <h1>DashBoard</h1>
-      <DescriptionBox data={data[selectedRows]} />
-      <SheetContainer>
-        <Styles>
-          <TableContainer
-            columns={columns}
-            data={data}
-            selectedRows={selectedRows}
-            setSelectedRows={setSelectedRows}
-          />
-        </Styles>
-      </SheetContainer>
-      <Button
-        onClick={() => {
-          exportExcel(data);
-        }}
-      >
-        excel Download
-      </Button>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <ContentWrapper>
+          <DescriptionBox data={data[selectedRows]} />
+          <Button
+            onClick={() => {
+              exportExcel(data);
+            }}
+          >
+            excel Download
+          </Button>
+          <SheetContainer>
+            <Styles>
+              <TableContainer
+                columns={columns}
+                data={data}
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+              />
+            </Styles>
+          </SheetContainer>
+        </ContentWrapper>
+      )}
     </Wrapper>
   );
 }
@@ -395,7 +403,7 @@ const SheetContainer = styled.div`
   width: 100%;
   overflow: scroll;
 `;
-
+const ContentWrapper = styled.div``;
 const Styles = styled.div`
   table {
     border-spacing: 0;

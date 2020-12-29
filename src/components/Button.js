@@ -25,7 +25,7 @@ const StyledButton = styled.button`
     background: #1c7ed6;
   }
 
-  margin-top: 2rem;
+  margin-bottom: 1rem;
   /* 기타 */
   & + & {
     margin-left: 1rem;

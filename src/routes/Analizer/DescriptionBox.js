@@ -257,7 +257,7 @@ export default (data) => {
 };
 
 const Container = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const Paper = styled.div`
