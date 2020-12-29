@@ -11,6 +11,7 @@ const RouteControler = () => {
 
   useEffect(() => {
     if (data && !isUploaded) {
+      console.log(isUploaded);
       setIsUploaded(true);
     }
   }, [data]);

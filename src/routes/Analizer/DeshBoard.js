@@ -320,7 +320,7 @@ const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, i) => {
-            console.log(page);
+            // console.log(page);
             prepareRow(row);
             const onChange = row.getToggleRowSelectedProps().onChange;
             const select = (e) => {
@@ -386,7 +386,7 @@ const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
             setPageSize(Number(e.target.value));
           }}
         >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
+          {[10, 20, 30, 40, 50, 100, 200].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>
@@ -399,7 +399,6 @@ const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
 
 const Wrapper = styled.div``;
 const SheetContainer = styled.div`
-  height: 30rem;
   width: 100%;
   overflow: scroll;
 `;
