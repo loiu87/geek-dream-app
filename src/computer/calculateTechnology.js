@@ -8,11 +8,13 @@ export default (
   avrgNumOfInventors,
   avrgNumOfIPC
 ) => {
-  if (values[0]) {
+  if (values[0].length) {
     const techPerfection = parseInt(values[INDEX.numOfClaim]) / avrgNumOfClaim;
     const techResponsibility =
       parseInt(values[INDEX.numOfInventors]) / avrgNumOfInventors;
-    const techConvergence = values[INDEX.IPC].split("|").length / avrgNumOfIPC;
+
+    const techConvergence =
+      values[INDEX.IPC].toString().split("|").length / avrgNumOfIPC;
     data["기술완성도"] = techPerfection;
     data["기술신뢰성"] = techResponsibility;
     data["융복합성"] = techConvergence;
@@ -40,5 +42,6 @@ export default (
         : techConvergence >= 0.6
         ? 3
         : 1.5;
+  } else {
   }
 };

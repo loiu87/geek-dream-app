@@ -21,6 +21,7 @@ export default async (
   setAvrgNumOfInventors(
     columnAverage({ datas: data, index: INDEX.numOfInventors })
   );
+
   setAvrgNumOfIPC(clmnOrSmblAverage({ datas: data, index: INDEX.IPC }));
   setAvrgRemainingYears(
     clmnYearAverage({ nowYear, datas: data, index: INDEX.filingDate })

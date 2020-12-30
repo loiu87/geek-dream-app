@@ -287,7 +287,6 @@ const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
   );
 
   useEffect(() => {
-    console.log(selectedFlatRows);
     const index =
       selectedFlatRows &&
       selectedFlatRows[0] &&

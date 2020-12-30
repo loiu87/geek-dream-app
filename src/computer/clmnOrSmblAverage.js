@@ -5,8 +5,9 @@ export default ({ datas, index }) => {
   let parsedData = [];
   datas.map((data) => {
     const value = Object.values(data)[index];
+
     if (value) {
-      const numOfData = value.split("|").length;
+      const numOfData = value.toString().split("|").length;
       if (isNaN(numOfData)) {
         return 0;
       } else {
