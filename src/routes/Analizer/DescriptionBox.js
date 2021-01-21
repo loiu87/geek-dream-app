@@ -79,10 +79,12 @@ export default (data) => {
                   </td>
                 </tr>
                 <tr>
-                  <th className="tableTitle">법적상태</th>
+                  <th className="tableTitle">법적상태(KR/JP/EP/CN)</th>
                   <td colSpan="3">
                     <div className="linkCell">
-                      <div className="NumCell">{data.data["법적상태"]}</div>
+                      <div className="NumCell">
+                        {data.data["상태정보(KR/JP/EP/CN)"]}
+                      </div>
                     </div>
                   </td>
                 </tr>

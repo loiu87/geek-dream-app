@@ -18,11 +18,12 @@ export const calculateMarket = (
     const marketDominance =
       releasePeriod({ now, data: values, index: INDEX.releaseDate }) /
       avrgPublicationDays;
-    console.log(avrgPublicationDays);
     data["시장의 확보성"] = marketDefence;
     data["시장의 진출성"] = marketEntry;
     data["시장의 집중도"] = marketConcentration;
-    data["시장의 선점도"] = marketDominance;
+    data["시장의 선점도"] = isNaN(marketDominance)
+      ? undefined
+      : marketDominance;
     data["배점: 시장의 확보성"] =
       marketDefence >= 1.0
         ? 4

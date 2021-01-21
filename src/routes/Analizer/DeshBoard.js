@@ -81,6 +81,10 @@ function DashBoard() {
         accessor: "출원인 수",
       },
       {
+        Header: "발명자/고안자",
+        accessor: "발명자/고안자",
+      },
+      {
         Header: "발명자/고안자 국적",
         accessor: "발명자/고안자 국적",
       },
@@ -243,7 +247,6 @@ function DashBoard() {
       setAvrgNumOfFamilyContry,
       setAvrgPublicationDays
     );
-    console.log(data);
     await setCalculatedData(
       data,
       now,
