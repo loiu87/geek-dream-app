@@ -27,16 +27,17 @@ function DashBoard() {
   const columns = useMemo(
     () => [
       {
-        Header: "No",
-        accessor: "No",
-      },
-      {
         Header: "국가코드",
         accessor: "국가코드",
       },
       {
         Header: "발명의 명칭",
         accessor: "발명의 명칭",
+      },
+
+      {
+        Header: "청구항 수",
+        accessor: "청구항 수",
       },
 
       {
@@ -48,69 +49,104 @@ function DashBoard() {
         accessor: "출원일",
       },
       {
+        Header: "공개번호/공표/재공표",
+        accessor: "공개번호/공표/재공표",
+      },
+      {
         Header: "공개일",
         accessor: "공개일",
+      },
+      {
+        Header: "등록번호",
+        accessor: "등록번호",
       },
       {
         Header: "등록일",
         accessor: "등록일",
       },
       {
-        Header: "청구항 수",
-        accessor: "청구항 수",
-      },
-      {
-        Header: "발명자 수",
-        accessor: "발명자 수",
-      },
-      {
-        Header: "IPC (All)",
-        accessor: "IPC (All)",
-      },
-      {
-        Header: "패밀리 문헌 수 (출원기준)",
-        accessor: "패밀리 문헌 수 (출원기준)",
-      },
-      {
-        Header: "패밀리 국가 수",
-        accessor: "패밀리 국가 수",
-      },
-      {
         Header: "출원인",
         accessor: "출원인",
       },
       {
-        Header: "출원인 수",
-        accessor: "출원인 수",
+        Header: "존속기간(예상)만료일(KR/JP/US/CN)",
+        accessor: "존속기간(예상)만료일(KR/JP/US/CN)",
       },
       {
         Header: "출원인 국적",
         accessor: "출원인 국적",
       },
       {
-        Header: "발명자/고안자",
-        accessor: "발명자/고안자",
+        Header: "출원인 수",
+        accessor: "출원인 수",
       },
+      {
+        Header: "발명자/고안자 국적",
+        accessor: "발명자/고안자 국적",
+      },
+      {
+        Header: "발명자 수",
+        accessor: "발명자 수",
+      },
+      {
+        Header: "패밀리 문헌 수 (출원기준)",
+        accessor: "패밀리 문헌 수 (출원기준)",
+      },
+      {
+        Header: "패밀리 국가 수(출원기준)",
+        accessor: "패밀리 국가 수(출원기준)",
+      },
+      {
+        Header: "Original IPC Main",
+        accessor: "Original IPC Main",
+      },
+      {
+        Header: "Original IPC All",
+        accessor: "Original IPC All",
+      },
+      {
+        Header: "상태정보(KR/JP/EP/CN)",
+        accessor: "상태정보(KR/JP/EP/CN)",
+      },
+      {
+        Header: "상태정보[US등록문헌]",
+        accessor: "상태정보[US등록문헌]",
+      },
+      {
+        Header: "인용 문헌 수(B1)",
+        accessor: "인용 문헌 수(B1)",
+      },
+      {
+        Header: "인용 문헌번호 (B1) + 심사관(E) 인용 (KR/US)",
+        accessor: "인용 문헌번호 (B1) + 심사관(E) 인용 (KR/US)",
+      },
+      {
+        Header: "인용 문헌 수(F1)",
+        accessor: "인용 문헌 수(F1)",
+      },
+
+      {
+        Header: "인용 문헌번호 (F1) + 심사관(E) 인용 (KR/US)",
+        accessor: "인용 문헌번호 (F1) + 심사관(E) 인용 (KR/US)",
+      },
+      {
+        Header: "심사관인용문헌(F1)",
+        accessor: "심사관인용문헌(F1)",
+      },
+      {
+        Header: "현재권리자(KR/JP/US)",
+        accessor: "현재권리자(KR/JP/US)",
+      },
+      {
+        Header: "원문링크",
+        accessor: "원문링크",
+      },
+
       {
         Header: "Wintelips Key",
         accessor: "Wintelips Key",
       },
-      {
-        Header: "IPC(Class)",
-        accessor: "IPC(Class)",
-      },
-      {
-        Header: "기술성장 CAGR",
-        accessor: "기술성장 CAGR",
-      },
-      {
-        Header: "산업부문IPC",
-        accessor: "산업부문IPC",
-      },
-      {
-        Header: "시장성장 CAGR",
-        accessor: "시장성장 CAGR",
-      },
+
       {
         Header: "기술완성도",
         accessor: "기술완성도",
@@ -207,6 +243,7 @@ function DashBoard() {
       setAvrgNumOfFamilyContry,
       setAvrgPublicationDays
     );
+    console.log(data);
     await setCalculatedData(
       data,
       now,
