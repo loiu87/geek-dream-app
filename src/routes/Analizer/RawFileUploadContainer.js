@@ -1,62 +1,65 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
-import React, { useContext } from "react";
-import styled from "styled-components";
-import * as XLSX from "xlsx";
+import React, { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-apollo-hooks";
+import {
+  CREATE_SHEET,
+  GET_SHEETS,
+  LOCAL_LOG_OUT,
+  GET_SHEET,
+} from "./AnalizerQuery";
+import RawFileUploadPresenter from "./RawFileUploadPresenter";
 import { DataContext } from "./RouteControler";
-
-const convertToJson = (csv) => {
-  let lines = csv.split("\n");
-  var result = [];
-  var headers = lines[0].split(",");
-
-  for (var i = 1; i < lines.length; i++) {
-    var obj = {};
-    let pattern = /".*?"/g;
-    let newLines = lines[i].replace(pattern, (data) => {
-      return data.replace(/,/g, "`");
-    });
-    var currentline = newLines.split(",");
-
-    for (var j = 0; j < headers.length; j++) {
-      if (currentline[j] !== undefined) {
-        obj[headers[j]] = currentline[j].replace(/`/g, ",");
-      }
-    }
-
-    result.push(obj);
-  }
-  return result;
-};
+import { convertToJson } from "./util/convertToJson";
 
 export default () => {
   const { setData } = useContext(DataContext);
-
-  const readExcel = async (event) => {
-    let input = event.target;
-    let reader = new FileReader();
-    reader.onload = async () => {
-      let data = reader.result;
-      let workBook = XLSX.read(data, { type: "binary" });
-      const sheetName = workBook.SheetNames[0];
-      let workSheet = workBook.Sheets[sheetName];
-      const result = XLSX.utils.sheet_to_csv(workSheet, { header: 1 });
-      setData(convertToJson(result));
-    };
-    await reader.readAsBinaryString(input.files[0]);
+  const [rawData, setRawData] = useState("");
+  const { data: sheetListData, loading } = useQuery(GET_SHEETS);
+  const [getSheetMutation] = useMutation(GET_SHEET);
+  const [createSheetMutation] = useMutation(CREATE_SHEET, {
+    variables: { fileName: rawData.fileName, content: rawData.content },
+  });
+  const [localLogOutMutation] = useMutation(LOCAL_LOG_OUT);
+  const onCreateSheet = async (rawData) => {
+    if (rawData !== "") {
+      try {
+        await createSheetMutation();
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
-  return (
-    <Container>
-      <h1>file uploader</h1>
-      <input
-        type="file"
-        id="excelFile"
-        onChange={(event) => {
-          return readExcel(event);
-        }}
-      />
-    </Container>
+  const onLogOut = async (e) => {
+    e.preventDefault();
+    try {
+      localLogOutMutation();
+    } catch (e) {
+      console.log(e);
+      alert("로그인에 실패하였습니다.");
+    }
+  };
+
+  const setOldData = async ({ id }) => {
+    console.log(id);
+    const sheet = await getSheetMutation({ variables: { id: id } });
+    setData(convertToJson(sheet.data.getSheet.content));
+  };
+
+  useEffect(() => {
+    onCreateSheet(rawData);
+  }, [rawData]);
+
+  return loading ? (
+    <></>
+  ) : (
+    <RawFileUploadPresenter
+      setData={setData}
+      sheetList={sheetListData.getSheets}
+      setRawData={setRawData}
+      onLogOut={onLogOut}
+      setOldData={setOldData}
+    />
   );
 };
-
-const Container = styled.div``;

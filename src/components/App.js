@@ -1,19 +1,30 @@
+/* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import Routes from "./Routes";
+import AppRouter from "./Router";
+import { useQuery } from "react-apollo-hooks";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
+import GlobalStyles from "../styles/GlobalStyles";
+import { gql } from "apollo-boost";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+const QUERY = gql`
+  {
+    isLoggedIn @client
+  }
+`;
+
+export default () => {
+  const {
+    data: { isLoggedIn },
+  } = useQuery(QUERY);
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <Router>
-        <Routes isLoggedIn={isLoggedIn} />
+        <AppRouter isLoggedIn={isLoggedIn} />
       </Router>
     </ThemeProvider>
   );
-}
-
-export default App;
+};

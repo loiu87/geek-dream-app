@@ -13,7 +13,7 @@ import DescriptionBox from "./DescriptionBox";
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 function DashBoard() {
   const [loading, setLoading] = useState(true);
-  const { data } = useContext(DataContext);
+  const { data, setIsUploaded } = useContext(DataContext);
   const [selectedRows, setSelectedRows] = useState(0);
   const [avrgNumOfClaim, setAvrgNumOfClaim] = useState(1);
   const [avrgNumOfInventors, setAvrgNumOfInventors] = useState(1);
@@ -22,6 +22,7 @@ function DashBoard() {
   const [avrgNumOfFamilyPatent, setAvrgNumOfFamilyPatent] = useState(1);
   const [avrgNumOfFamilyContry, setAvrgNumOfFamilyContry] = useState(1);
   const [avrgPublicationDays, setAvrgPublicationDays] = useState(1);
+  const [avrgSheet, setAvrgSheet] = useState([]);
   const now = new Date();
   const nowYear = now.getFullYear();
   const columns = useMemo(
@@ -247,6 +248,17 @@ function DashBoard() {
       setAvrgNumOfFamilyContry,
       setAvrgPublicationDays
     );
+    setAvrgSheet([
+      {
+        "청구항 평균": avrgNumOfClaim,
+        "발명자 평균": avrgNumOfInventors,
+        IPC평균: avrgNumOfIPC,
+        "존속기간 평균": avrgRemainingYears,
+        "페밀리 문헌 수 평균": avrgNumOfFamilyPatent,
+        "페밀리 국가 수 평균": avrgNumOfFamilyContry,
+        "공개일 평균": avrgPublicationDays,
+      },
+    ]);
     await setCalculatedData(
       data,
       now,
@@ -268,7 +280,9 @@ function DashBoard() {
 
   return (
     <Wrapper>
-      <h1>DashBoard</h1>
+      <BackButtonContainer>
+        <BackButton onClick={() => setIsUploaded(false)}>뒤로가기</BackButton>
+      </BackButtonContainer>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -276,10 +290,19 @@ function DashBoard() {
           <DescriptionBox data={data[selectedRows]} />
           <Button
             onClick={() => {
+              console.log(data);
               exportExcel(data);
             }}
           >
-            excel Download
+            All Data Download
+          </Button>
+          <Button
+            onClick={() => {
+              console.log(avrgSheet);
+              exportExcel(avrgSheet);
+            }}
+          >
+            Average Data Download
           </Button>
           <SheetContainer>
             <Styles>
@@ -437,6 +460,10 @@ const TableContainer = ({ columns, data, selectedRows, setSelectedRows }) => {
 };
 
 const Wrapper = styled.div``;
+const BackButtonContainer = styled.div`
+  margin: 8px 8px;
+`;
+const BackButton = styled.button``;
 const SheetContainer = styled.div`
   width: 100%;
   overflow: scroll;
