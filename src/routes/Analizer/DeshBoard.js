@@ -248,17 +248,7 @@ function DashBoard() {
       setAvrgNumOfFamilyContry,
       setAvrgPublicationDays
     );
-    setAvrgSheet([
-      {
-        "청구항 평균": avrgNumOfClaim,
-        "발명자 평균": avrgNumOfInventors,
-        IPC평균: avrgNumOfIPC,
-        "존속기간 평균": avrgRemainingYears,
-        "페밀리 문헌 수 평균": avrgNumOfFamilyPatent,
-        "페밀리 국가 수 평균": avrgNumOfFamilyContry,
-        "공개일 평균": avrgPublicationDays,
-      },
-    ]);
+
     await setCalculatedData(
       data,
       now,
@@ -298,8 +288,17 @@ function DashBoard() {
           </Button>
           <Button
             onClick={() => {
-              console.log(avrgSheet);
-              exportExcel(avrgSheet);
+              exportExcel([
+                {
+                  "청구항 평균": avrgNumOfClaim,
+                  "발명자 평균": avrgNumOfInventors,
+                  IPC평균: avrgNumOfIPC,
+                  "존속기간 평균": avrgRemainingYears,
+                  "페밀리 문헌 수 평균": avrgNumOfFamilyPatent,
+                  "페밀리 국가 수 평균": avrgNumOfFamilyContry,
+                  "공개일 평균": avrgPublicationDays,
+                },
+              ]);
             }}
           >
             Average Data Download
