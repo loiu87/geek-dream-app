@@ -11,6 +11,7 @@ import { DataContext } from "./RouteControler";
 import setCalculatedData from "../../util/setCalculatedData";
 import DescriptionBox from "./DescriptionBox";
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
+import getAverageOfCalculatedData from "../../util/getAverageOfCalculatedData";
 function DashBoard() {
   const [loading, setLoading] = useState(true);
   const { data, setIsUploaded } = useContext(DataContext);
@@ -22,6 +23,41 @@ function DashBoard() {
   const [avrgNumOfFamilyPatent, setAvrgNumOfFamilyPatent] = useState(1);
   const [avrgNumOfFamilyContry, setAvrgNumOfFamilyContry] = useState(1);
   const [avrgPublicationDays, setAvrgPublicationDays] = useState(1);
+
+  //average of calculated data
+  const [avrgTechPerfection, setAvrgTechPerfection] = useState(1);
+  const [avrgTechResponsibility, setAvrgTechResponsibility] = useState(1);
+  const [avrgTechConvergence, setAvrgTechConvergence] = useState(1);
+  const [avrgTechPerfectionScore, setAvrgTechPerfectionScore] = useState(1);
+  const [
+    avrgTechResponsibilityScore,
+    setAvrgTechResponsibilityScore,
+  ] = useState(1);
+  const [avrgTechConvergenceScore, setAvrgTechConvergenceScore] = useState(1);
+
+  const [avrgRightsCompletness, setAvrgRightsCompletness] = useState(1);
+  const [avrgRightsLife, setAvrgRightsLife] = useState(1);
+  const [avrgRightsScalability, setAvrgRightsScalability] = useState(1);
+  const [avrgRightsCompletnessScore, setAvrgRightsCompletnessScore] = useState(
+    1
+  );
+  const [avrgRightsLifeScore, setAvrgRightsLifeScore] = useState(1);
+  const [avrgRightsScalabilityScore, setAvrgRightsScalabilityScore] = useState(
+    1
+  );
+
+  const [avrgMarketDefence, setAvrgMarketDefence] = useState(1);
+  const [avrgMarketEntry, setAvrgMarketEntry] = useState(1);
+  const [avrgMarketConcentration, setAvrgMarketConcentration] = useState(1);
+  const [avrgMarketDominance, setAvrgMarketDominance] = useState(1);
+  const [avrgMarketDefenceScore, setAvrgMarketDefenceScore] = useState(1);
+  const [avrgMarketEntryScore, setAvrgMarketEntryScore] = useState(1);
+  const [
+    avrgMarketConcentrationScore,
+    setAvrgMarketConcentrationScore,
+  ] = useState(1);
+  const [avrgMarketDominanceScore, setAvrgMarketDominanceScore] = useState(1);
+
   const now = new Date();
   const nowYear = now.getFullYear();
   const columns = useMemo(
@@ -260,6 +296,31 @@ function DashBoard() {
       avrgNumOfFamilyContry,
       avrgPublicationDays
     );
+
+    getAverageOfCalculatedData({
+      data,
+      setAvrgTechPerfection,
+      setAvrgTechResponsibility,
+      setAvrgTechConvergence,
+      setAvrgTechPerfectionScore,
+      setAvrgTechResponsibilityScore,
+      setAvrgTechConvergenceScore,
+      setAvrgRightsCompletness,
+      setAvrgRightsLife,
+      setAvrgRightsScalability,
+      setAvrgRightsCompletnessScore,
+      setAvrgRightsLifeScore,
+      setAvrgRightsScalabilityScore,
+      setAvrgMarketDefence,
+      setAvrgMarketEntry,
+      setAvrgMarketConcentration,
+      setAvrgMarketDominance,
+      setAvrgMarketDefenceScore,
+      setAvrgMarketEntryScore,
+      setAvrgMarketConcentrationScore,
+      setAvrgMarketDominanceScore,
+    });
+
     setLoading(false);
   };
 
@@ -288,13 +349,26 @@ function DashBoard() {
             onClick={() => {
               exportExcel([
                 {
-                  "청구항 평균": avrgNumOfClaim,
-                  "발명자 평균": avrgNumOfInventors,
-                  IPC평균: avrgNumOfIPC,
-                  "존속기간 평균": avrgRemainingYears,
-                  "페밀리 문헌 수 평균": avrgNumOfFamilyPatent,
-                  "페밀리 국가 수 평균": avrgNumOfFamilyContry,
-                  "공개일 평균": avrgPublicationDays,
+                  "기술 완성도": avrgTechPerfection,
+                  "기술 신뢰성": avrgTechResponsibility,
+                  융복합성: avrgTechConvergence,
+                  "배점: 기술 완성도": avrgTechPerfectionScore,
+                  "배점: 기술 신뢰성": avrgTechResponsibilityScore,
+                  "배점: 융복합성": avrgTechConvergenceScore,
+                  "권리의 완성도": avrgRightsCompletness,
+                  "권리의 수명": avrgRightsLife,
+                  "권리의 확장성": avrgRightsScalability,
+                  "배점: 권리의 완성도": avrgRightsCompletnessScore,
+                  "배점: 권리의 수명": avrgRightsLifeScore,
+                  "배점: 권리의 확장성": avrgRightsScalabilityScore,
+                  "시장의 확보성": avrgMarketDefence,
+                  "시장의 진출성": avrgMarketEntry,
+                  "시장의 집중도": avrgMarketConcentration,
+                  "시장의 선점도": avrgMarketDominance,
+                  "배점: 시장의 확보성": avrgMarketDefenceScore,
+                  "배점: 시장의 진출성": avrgMarketEntryScore,
+                  "배점: 시장의 집중도": avrgMarketConcentrationScore,
+                  "배점: 시장의 선점도": avrgMarketDominanceScore,
                 },
               ]);
             }}
